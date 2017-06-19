@@ -5,6 +5,9 @@ app = Flask(__name__)
 
 app.config['DEBUG'] = True      # displays runtime errors in the browser, too
 
+def is_invalid(text):
+    return text == '' or (' ' in text) or len(text) < 3 or len(text) > 20
+
 @app.route("/", methods=['POST'])
 def signup():
     username = request.form['username']
@@ -17,15 +20,15 @@ def signup():
     c_password_error = ''
     email_error = ''
 
-    if username == '' or (' ' in username) or len(username) < 3 or len(username) > 20:
+    if is_invalid(username):
         username_error = "That's not a valid username"
-    if password == '' or (' ' in password) or len(password) < 3 or len(password) > 20:
+    if is_invalid(password):
         password_error = "That's not a valid password"
     if c_password == '':
         c_password_error = "That's not a valid password"
     if c_password != password:
         c_password_error = "Passwords don't match"
-    if email != '' and (email.count("@") != 1 or email.count(".") != 1 or (' ' in email) or len(email) < 3 or len(email) > 20):
+    if email != '' and (email.count("@") != 1 or email.count(".") != 1 or is_invalid(email)):
         email_error = "That's not a valid email"
 
 
