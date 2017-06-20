@@ -1,12 +1,15 @@
 from flask import Flask, request, redirect, render_template
 import cgi
+import re
 
 app = Flask(__name__)
 
 app.config['DEBUG'] = True      # displays runtime errors in the browser, too
 
 def is_invalid(text):
-    return text == '' or (' ' in text) or len(text) < 3 or len(text) > 20
+    # text == '' or (' ' in text) or len(text) < 3 or len(text) > 20
+    return re.search(r"\s+", text) or re.search(r"^.{0,2}$", text) or re.search(r"^.{20,}$", text)
+
 
 @app.route("/", methods=['POST'])
 def signup():
