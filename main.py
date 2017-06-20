@@ -35,7 +35,7 @@ def signup():
         email_error = "That's not a valid email"
 
 
-    if not username_error and not password_error and not c_password_error and not email_error:
+    if not (username_error or password_error or c_password_error or email_error):
         return redirect('/welcome?username=' + username)
     else:
         return render_template('index.html',
